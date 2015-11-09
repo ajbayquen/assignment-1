@@ -1,0 +1,103 @@
+---
+title: "Assignment 2 - Choose Function and the Basics of R Markdown"
+author: "Antonio J Bayquen"
+date: "November 6, 2015"
+output: html_document
+---
+
+**References:**
+
+  1. R for Everyone  by Jared P. Lander
+ 
+  2. <http://rmarkdown.rstudio.com/>
+ 
+  3. <https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>
+   
+ 
+
+
+
+**factorial function** 
+```{r}
+# This function will recursively compute for the factorial of x
+facto <- function(x) {
+  if (x <= 1) {
+    return(1)
+  } else return(x * facto(x - 1))
+}
+```
+
+
+**choose function**  
+```{r}
+combo <- function(N, r) {
+  
+  # limit input to numbers
+  if (!is.numeric(N) | !is.numeric(r)) {
+         print("Only numeric values are allowed")
+         return(NA)
+  }
+  
+  # limit input to 0 and postive integers
+  if (N%%1 > 0 | r%%1 > 0) {
+    print("Only non-negative integer values are allowed")
+    return(NA)
+  }
+  if (N < 0 | r < 0) {
+    print("Only non-negative integer values are allowed")
+    return(NA)
+  }
+  
+  # r cannot be greater than N
+  if (r > N) {
+    print("r cannot be greater than the sample size N")
+    return(NA)
+  }
+  
+  # return combinations possible for a sample size of N taken r at a time
+  return(facto(N)/(facto(N - r) * facto(r)))
+}
+
+```
+
+
+**validation test - non-numeric number**
+```{r}
+combo('a','b')
+combo(100,'b')
+combo('a',13)
+```
+
+**validation test - non-integer**
+```{r}
+combo(2.5,0.5)
+combo(100.001,5)
+combo(5,3.33)
+```
+
+**validation test - non-positive/zero integer**
+```{r}
+combo(-2,-1)
+combo(81,-5)
+combo(-23,3)
+```
+
+**parallel test - test combo function and compare results against choose function**
+```{r}
+combo(5,2)
+choose(5,2)
+
+combo(100,86)
+choose(100,86 )
+
+combo(25,3)
+choose(25,3)
+
+combo(100,1)
+choose(100,1)
+
+combo(100,0)
+choose(100,0)
+```
+
+
